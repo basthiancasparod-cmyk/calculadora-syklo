@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)file:///C:/Users/FOLGORESB/Desktop/calc.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Syklo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./Calculadora Syklo_files/css2" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos base y variables de color de index.html */
         :root {
             --background: #0D1117;
             --surface: #161B22;
@@ -30,33 +29,24 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background);
             color: var(--text-primary);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            /* Ajuste para que el popup no sea tan grande */
+            width: 400px;
             padding: 1rem;
         }
-
-        /* Contenedor principal, estilo "card" */
         .container {
             background-color: var(--surface);
             border-radius: 24px;
             border: 1px solid var(--border);
-            max-width: 400px;
             width: 100%;
             padding: 2.5rem;
             text-align: center;
         }
-
-        /* Título */
         h2 {
             margin-bottom: 2rem;
             font-weight: 700;
             color: var(--text-primary);
             font-size: 1.8rem;
         }
-
-        /* Campo de entrada de número */
         input[type=number] {
             width: 100%;
             font-size: 1.1rem;
@@ -74,16 +64,12 @@
             box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
             outline: none;
         }
-
-        /* Contenedor de botones */
         .button-group {
             display: flex;
             flex-direction: column;
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
-        /* Estilo base para botones */
         .btn {
             width: 100%;
             padding: 0.8rem 1rem;
@@ -98,8 +84,6 @@
         .btn:hover {
             filter: brightness(1.1);
         }
-
-        /* Botones específicos */
         #sellBtn {
             background-color: var(--danger);
             color: white;
@@ -108,8 +92,6 @@
             background-color: var(--success);
             color: var(--background);
         }
-
-        /* Contenedor de resultados */
         #result-container {
             margin-top: 1.5rem;
             padding: 1.25rem;
@@ -129,8 +111,6 @@
             font-weight: 600;
             font-size: 1.4rem;
         }
-
-        /* Sugerencia y botón de copiar */
         #suggestion-wrapper {
             display: flex;
             align-items: center;
@@ -168,8 +148,6 @@
             height: 18px;
             fill: currentColor;
         }
-
-        /* Ocultar flechas en input de número */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
           -webkit-appearance: none; 
@@ -191,10 +169,10 @@
         </div>
         
         <div id="result-container" aria-live="polite" aria-atomic="true" aria-relevant="additions">
-            <div id="result" role="status">Vender: 294.115</div>
-            <div id="suggestion-wrapper" style="display: flex;">
+            <div id="result" role="status"></div>
+            <div id="suggestion-wrapper" style="display: none;">
                 <span>Sugerencia: </span>
-                <span id="suggestion-text">294.113</span>
+                <span id="suggestion-text"></span>
                 <button id="copy-btn" aria-label="Copiar sugerencia" title="Copiar sugerencia" type="button">
                     <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                         <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"></path>
@@ -204,78 +182,7 @@
         </div>
     </div>
 
-    <script>
-        const sellBtn = document.getElementById('sellBtn');
-        const buyBtn = document.getElementById('buyBtn');
-        const amountInput = document.getElementById('amount');
-        const resultDiv = document.getElementById('result');
-        const suggestionWrapper = document.getElementById('suggestion-wrapper');
-        const suggestionText = document.getElementById('suggestion-text');
-        const copyBtn = document.getElementById('copy-btn');
+    <script src="script.js"></script>
 
-        function formatNumber(num) {
-            return num.toFixed(3);
-        }
-
-        function showResult(type, amount) {
-            let adjusted;
-            let resultText;
-            let suggestionNum;
-
-            if (type === "sell") {
-                adjusted = amount * (1 - 0.003);
-                resultText = `Vender: ${formatNumber(adjusted)}`;
-                suggestionNum = adjusted - 0.002;
-            } else {
-                adjusted = amount * 1.003;
-                resultText = `Comprar: ${formatNumber(adjusted)}`;
-                suggestionNum = adjusted + 0.003;
-            }
-            
-            resultDiv.textContent = resultText;
-            suggestionText.textContent = formatNumber(suggestionNum);
-            suggestionWrapper.style.display = "flex";
-        }
-
-        copyBtn.addEventListener('click', () => {
-            const textToCopy = suggestionText.textContent;
-            if (!textToCopy) return;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                copyBtn.style.borderColor = 'var(--success)';
-                copyBtn.style.color = 'var(--success)';
-                setTimeout(() => {
-                    copyBtn.style.borderColor = 'var(--border)';
-                    copyBtn.style.color = 'var(--text-secondary)';
-                }, 1500);
-            }).catch(() => {
-                alert('No se pudo copiar al portapapeles.');
-            });
-        });
-
-        sellBtn.addEventListener('click', () => {
-            const amount = parseFloat(amountInput.value);
-            if (isNaN(amount) || amount < 0) {
-                resultDiv.textContent = 'Ingresa un monto válido.';
-                suggestionWrapper.style.display = "none";
-                return;
-            }
-            showResult("sell", amount);
-        });
-
-        buyBtn.addEventListener('click', () => {
-            const amount = parseFloat(amountInput.value);
-            if (isNaN(amount) || amount < 0) {
-                resultDiv.textContent = 'Ingresa un monto válido.';
-                suggestionWrapper.style.display = "none";
-                return;
-            }
-            showResult("buy", amount);
-        });
-
-        amountInput.addEventListener('input', () => {
-            resultDiv.textContent = '';
-            suggestionWrapper.style.display = "none";
-        });
-    </script>
-
-</body></html>
+</body>
+</html>
