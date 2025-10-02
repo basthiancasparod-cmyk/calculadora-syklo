@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Calculadora Syklo",
+  "version": "1.0",
+  "description": "Calculadora de precios Syklo, ahora como extensión.",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon16.png"
+    },
+    "default_title": "Calculadora Syklo",
+    "default_popup": "index.html"
+  }
+}
